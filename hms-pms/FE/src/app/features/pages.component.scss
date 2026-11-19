@@ -1,0 +1,172 @@
+@import "platform/theme/styles/_variables";
+
+/* 11.161c: đồng hồ đếm ngược tự khóa (phút cuối) — pill nhạt trên nền brand, nháy nhẹ để bắt mắt nhưng không chói */
+.lock-countdown {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 28px; padding: 0 var(--g-space-2) 0 6px; margin-right: 2px;
+  border-radius: var(--g-radius-pill);
+  background: color-mix(in srgb, var(--g-color-neutral-0) 18%, transparent);
+  color: var(--g-color-neutral-0);
+  font-size: var(--g-text-sm); font-weight: var(--g-weight-medium); font-variant-numeric: tabular-nums;
+  animation: lock-countdown-pulse 1s ease-in-out infinite alternate;
+  .mat-icon { width: 18px; height: 18px; font-size: 18px; line-height: 18px; }
+}
+@keyframes lock-countdown-pulse { from { opacity: 0.75; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lock-countdown { animation: none; } }
+
+/* ===== Top bar (toolbar) — nền màu brand, chữ/icon trắng ===== */
+.app-toolbar.mat-toolbar {
+    /* Dính top khi cuộn → top bar không bị che (thay hack height:101% ở .mat-drawer-content) */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    /* --app-brand set per-skin trong _theme.scss (.app.{skin}) → đổi theo màu base chắc chắn.
+       Đậm hơn 1 nấc qua color-mix; = màu header sidebar (không tương phản). */
+    background: color-mix(in srgb, var(--app-brand, #3f51b5) 85%, var(--g-color-neutral-900));
+    color: var(--g-color-neutral-0);
+    border-bottom: none;
+    box-shadow: var(--g-shadow-sm);
+    /* Icon trắng (hamburger + actions phải, kể cả child component) xử lý global ở _theme-reset (.app-toolbar) */
+}
+
+.toolbar-title {
+    margin-left: var(--g-space-2);
+    font-size: var(--g-text-base);
+    font-weight: var(--g-weight-semibold);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: var(--g-color-neutral-0);   /* trắng trên nền brand */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ngày giờ → chip trắng mờ + icon đồng hồ */
+.toolbar-date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--g-space-1);
+    margin-right: var(--g-space-3);
+    padding: var(--g-space-1) var(--g-space-3);
+    font-size: var(--g-text-sm);
+    font-weight: var(--g-weight-medium);
+    color: var(--g-color-neutral-0);
+    background: color-mix(in srgb, var(--g-color-neutral-0) 15%, transparent);
+    border-radius: var(--g-radius-pill);
+    white-space: nowrap;
+
+    .toolbar-date__icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: var(--g-color-neutral-0);
+    }
+}
+
+/* Popup chọn màu base — mat-menu render ở cdk overlay (global) nên cần ::ng-deep */
+::ng-deep .theme-menu {
+    .mat-mdc-menu-content { padding: 0 !important; }
+
+    .theme-swatches {
+        display: flex;
+        gap: var(--g-space-2);
+        padding: var(--g-space-3);
+    }
+
+    .theme-swatch {
+        width: 26px;
+        height: 26px;
+        border-radius: var(--g-radius-pill);
+        border: 2px solid var(--g-color-neutral-0);
+        box-shadow: 0 0 0 1px var(--g-color-neutral-300);
+        cursor: pointer;
+        padding: 0;
+        transition: transform var(--g-dur-fast) var(--g-ease-out);
+
+        &:hover { transform: scale(1.12); }
+        &.active { box-shadow: 0 0 0 2px var(--g-color-neutral-900); }
+    }
+}
+
+.sidenav{
+    width: $sidenav-width;
+    overflow: hidden;
+    border: none !important;
+    border-radius: 0 !important;
+    --mat-sidenav-container-shape: 0;   /* bỏ bo góc M3 mặc định */
+    /* Đổ bóng cạnh phải → sidebar nổi lên trên content phẳng bên phải */
+    box-shadow: 4px 0 16px color-mix(in srgb, var(--g-color-neutral-900) 10%, transparent) !important;
+    z-index: 5;
+}
+.horizontal-menu{
+    padding: 0;
+    position: relative;
+    z-index: 9;    
+    height: 0;
+    &.sticky{
+        height: 0;
+        min-height: 0;
+        overflow: hidden;
+        &.fixed-top{
+            position: fixed;
+            top: 0;
+            height: $horizontal-menu-height;
+            overflow: visible;
+        }
+    }
+} 
+
+// .sidenav-content-inner { 
+//     padding: $inner-sidenav-content-padding;  
+//     height: calc(100vh - (#{$toolbar-height} + #{$inner-sidenav-content-padding}*2));  
+//     &.has-footer{  
+//         padding-bottom: calc(#{$footer-height} + #{$inner-sidenav-content-padding}); 
+//         height: calc(100vh - (#{$toolbar-height} + #{$footer-height} + #{$inner-sidenav-content-padding}*2));  
+//     }  
+//     &.fixed-header {
+//         overflow: auto; 
+//         &.has-footer { 
+//             height: calc(100vh - (#{$toolbar-height} + #{$footer-height} + #{$inner-sidenav-content-padding}*2));   
+//         } 
+//     } 
+// }
+ 
+
+
+@-moz-keyframes spin { 
+    100% { 
+        -moz-transform: rotate(360deg); 
+    } 
+}
+@-webkit-keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+    } 
+}
+@keyframes spin { 
+    100% { 
+        transform: rotate(360deg);
+    }
+}
+
+.back-to-top{
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 999999;
+    right: 20px;
+    bottom: 20px;
+    opacity: .5;
+    color: #fff;
+    background-color: rgba(0,0,0,.75);
+    border-radius: 4px;    
+    &:hover{
+        opacity: 0.9;
+    }    
+}
+
+
+
+
+

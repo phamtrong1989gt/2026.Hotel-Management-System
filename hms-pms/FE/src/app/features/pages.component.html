@@ -1,0 +1,115 @@
+@if (!this.settings.loadingSpinner) {
+  <mat-sidenav-container [dir]="settings.rtl ? 'rtl' : 'ltr'">
+    @if (settings.menu == 'vertical') {
+      <mat-sidenav
+        [opened]="settings.sidenavIsOpened"
+        [mode]="settings.sidenavIsPinned ? 'side' : 'over'"
+        #sidenav
+        (openedStart)="showSidenav = !showSidenav"
+        (closedStart)="showSidenav = !showSidenav"
+        class="sidenav mat-elevation-z6"
+      >
+        <app-sidenav [logoutLoading]="logoutLoading" [lockVisible]="!linked()" (logoutRequested)="logout()" (lockRequested)="lockScreen()"></app-sidenav>
+      </mat-sidenav>
+    }
+    <mat-sidenav-content #mainSidenavContent id="main" (scroll)="onPageScroll($event)">
+      <mat-toolbar color="primary" class="px-2 app-toolbar">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            @if (settings.menu == 'vertical') {
+              <g-button iconOnly type="text" icon="menu" ariaLabel="Mở/đóng menu" (click)="toggleSidenav()" />
+            }
+            @if (settings.menu == 'vertical') {
+              <span class="toolbar-title"> {{ appTitle }} </span>
+            }
+            @if (settings.menu == 'horizontal') {
+              <a
+                style="padding: 0 2px 0 10px !important"
+                mat-raised-button
+                color="accent"
+                routerLink="/"
+                (click)="closeSubMenus()"
+                class="small-logo"
+              >
+                <img height="32px" [src]="branding.logoUrl || 'img/logo/logo_tn.png'" [alt]="appTitle" />
+              </a>
+            }
+            @if (settings.menu == 'horizontal') {
+              <a class="logo" routerLink="/" (click)="closeSubMenus()">{{ appTitle }}</a>
+            }
+          </div>
+          <div fxLayout="row" fxLayoutAlign="end center">
+            <app-maintenance-banner />   <!-- 11.164c: chip bảo trì trong top bar (không chiếm dòng) — chỉ hiện khi có lịch/đang bảo trì -->
+            <app-config-readiness-chip />   <!-- 2026-10-07: chip "Thiếu n cấu hình" — chỉ người có quyền SystemHealth/Index, ẩn khi đủ cấu hình -->
+            @if (currentDate) {
+              <span class="toolbar-date">
+                <mat-icon class="toolbar-date__icon">schedule</mat-icon>
+                {{ currentDate | date: 'dd/MM/yyyy HH:mm' }}
+              </span>
+            }
+            <!-- Đổi màu base (skin) — popup swatch, lưu localStorage -->
+            <g-button
+              iconOnly
+              type="text"
+              icon="palette"
+              ariaLabel="Đổi màu giao diện"
+              matTooltip="Đổi màu giao diện"
+              [matMenuTriggerFor]="themeMenu"
+            />
+            <mat-menu #themeMenu="matMenu" class="theme-menu" xPosition="before">
+              <div class="theme-swatches" (click)="$event.stopPropagation()">
+                @for (t of themes; track t.value) {
+                  <button
+                    type="button"
+                    class="theme-swatch"
+                    [class.active]="settings.theme === t.value"
+                    [style.background]="t.color"
+                    [matTooltip]="t.label"
+                    (click)="changeTheme(t.value)"
+                  ></button>
+                }
+              </div>
+            </mat-menu>
+            <app-applications title="Tính năng" fxShow="false" fxShow.gt-sm></app-applications>
+            <app-fullscreen></app-fullscreen>
+            <!-- 11.161c: phút cuối trước khi tự khóa → đồng hồ đếm ngược cạnh nút khóa; thao tác bất kỳ đặt lại → ẩn -->
+            @if (sessionIdle.lockCountdown(); as s) {
+              <span class="lock-countdown" role="status" aria-live="polite"
+                    [matTooltip]="'account-menu.lock-countdown-tip' | translate: { n: s }">
+                <mat-icon>timer</mat-icon><span class="lock-countdown__t">{{ formatRemaining(s * 1000) }}</span>
+              </span>
+            }
+            <!-- G2b/C4: ở chế độ Linked không có mật khẩu cục bộ để mở khoá màn ⇒ ẩn nút "Khoá màn hình" (phiên kết thúc mềm khi idle, xem AppComponent). -->
+            @if (!linked()) {
+              <g-button
+                iconOnly
+                type="text"
+                icon="lock"
+                [ariaLabel]="'account-menu.lock-screen' | translate"
+                [matTooltip]="lockTooltip()"
+                (mouseenter)="refreshLockTip()"
+                (focusin)="refreshLockTip()"
+                (click)="lockScreen()"
+              />
+            }
+            <app-user-menu [logoutLoading]="logoutLoading" (logoutRequested)="logout()"></app-user-menu>
+          </div>
+        </div>
+      </mat-toolbar>
+      <div
+        #mainContent
+        id="main-content"
+        (scroll)="onPageScroll($event)"
+        class="sidenav-content-inner transition-2"
+        [class.has-footer]="settings.hasFooter"
+        [class.fixed-header]="settings.fixedHeader"
+        [class.no-breadcrumb]="router.url == '/'"
+      >
+        <router-outlet></router-outlet>
+      </div>
+      <div #backToTop fxLayout="row" fxLayoutAlign="center center" class="back-to-top" (click)="scrollToTop()">
+        <mat-icon>arrow_upward</mat-icon>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}

@@ -1,0 +1,15 @@
+{
+  "project": "HMS",
+  "platform": {
+    "path": "../../0.Core",
+    "repo": "Core",
+    "ref": "7.0.x"
+  },
+  "repos": {
+    "hms": { "path": "." },
+    "hms-pms": { "path": "../hms-pms" }
+  },
+  "apps": [
+    { "code": "PMS", "repo": "hms-pms", "be": "BE", "fe": "FE", "contracts": "_contracts" }
+  ]
+}

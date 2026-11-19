@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>App.Modules.PMS</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Common/PTCore.Common.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Domain/PTCore.Domain.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Application/PTCore.Application.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Persistence/PTCore.Persistence.csproj" />
+    <!-- Module lõi mà nghiệp vụ của phần mềm thường cần (Identity: người dùng · Category: đơn vị / danh mục · FileStorage: tệp qua File API · Notification · AuditLog: nhật ký). -->
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Modules/PTCore.Modules.Identity/PTCore.Modules.Identity.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Modules/PTCore.Modules.Category/PTCore.Modules.Category.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Modules/PTCore.Modules.FileStorage/PTCore.Modules.FileStorage.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Modules/PTCore.Modules.Notification/PTCore.Modules.Notification.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Modules/PTCore.Modules.AuditLog/PTCore.Modules.AuditLog.csproj" />
+  </ItemGroup>
+
+</Project>

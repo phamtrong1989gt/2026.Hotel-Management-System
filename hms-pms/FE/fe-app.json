@@ -1,0 +1,14 @@
+{
+  "app": "PMS",
+  "kit": "../../../0.Core/src/Core/FE",
+  "storageNamespace": "pms",
+  "sharedModules": [
+    "audit-log",
+    "operations",
+    "notification",
+    "sso-client",
+    "platform",
+    "category",
+    "identity"
+  ]
+}

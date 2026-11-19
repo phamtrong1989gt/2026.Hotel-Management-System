@@ -1,0 +1,34 @@
+# Chuan hoa line-ending: moi tep text checkout LF tren MOI nen (Windows / Linux / macOS).
+# Ly do: nhieu cong kiem va test hash noi dung tep (dau van tay module, platform-hash, golden) —
+# CRLF (Windows, core.autocrlf=true) lech LF se bao nham. Thu muc con co .gitattributes rieng (vd FE) van thang the o day.
+* text=auto eol=lf
+
+# Nhi phan — KHONG dung, KHONG chuan hoa.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.webp   binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.otf    binary
+*.eot    binary
+*.pdf    binary
+*.mp4    binary
+*.webm   binary
+*.zip    binary
+*.rar    binary
+*.7z     binary
+*.gz     binary
+*.xlsx   binary
+*.xls    binary
+*.docx   binary
+*.doc    binary
+*.pptx   binary
+*.pfx    binary
+*.dll    binary
+*.exe    binary
+*.nupkg  binary
+*.snk    binary

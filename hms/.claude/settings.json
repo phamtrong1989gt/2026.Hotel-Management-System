@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "../../0.Core",
+      "../hms-pms"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "timeout": 10,
+            "statusMessage": "Kiem tra lenh build FE bi cam",
+            "command": "input=$(cat); if printf \"%s\" \"$input\" | grep -qiE \"npm run build|ng build|(npx( --no-install)?|node_modules/\\\\.bin/) *(sass|esbuild|webpack)\\\\b\"; then printf \"%s\" \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PreToolUse\\\",\\\"permissionDecision\\\":\\\"deny\\\",\\\"permissionDecisionReason\\\":\\\"CHAN: bien dich FE tu phien Claude (npm run build / ng build / sass|esbuild|webpack CLI) lam treo extension 5/5 lan (2026-09-11..15). Coder tu build o terminal hoac de CI. Vong sua-xem chi dung npm run check + tsc --noEmit + ng serve cua coder.\\\"}}\"; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

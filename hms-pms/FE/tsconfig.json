@@ -1,0 +1,18 @@
+/* Cấu hình biên dịch của FE PMS: kế thừa chuẩn chung ở ../../../0.Core/src/Core/FE/tsconfig.base.json, chỉ khai riêng bảng alias `paths`. */
+{
+  "extends": "../../../0.Core/src/Core/FE/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../../..",
+    "paths": {
+      // Nguồn CHUNG (../../../0.Core/src/Core/FE/platform) — KHÔNG chép vào ứng dụng. Đường dẫn tính từ tệp tsconfig này.
+      "@platform/*": ["../../../0.Core/src/Core/FE/platform/*"],
+      "@core/*": ["../../../0.Core/src/Core/FE/platform/core/*"],
+      "@ui/*": ["../../../0.Core/src/Core/FE/platform/ui/*"],
+      "@layout/*": ["../../../0.Core/src/Core/FE/platform/layout/*"],
+      "@theme/*": ["../../../0.Core/src/Core/FE/platform/theme/*"],
+      // Module: thư mục của ứng dụng thắng, không có thì lấy module chung (../../../0.Core/src/Core/FE/modules).
+      "@modules/*": ["./src/app/modules/*", "../../../0.Core/src/Core/FE/modules/*"],
+      "@features/*": ["./src/app/features/*"]
+    }
+  }
+}

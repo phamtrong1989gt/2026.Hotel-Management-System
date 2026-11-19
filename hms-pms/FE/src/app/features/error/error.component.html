@@ -1,0 +1,41 @@
+<!-- Trang lỗi (404 / 401 / 403 / 409 / 500) — 2026-10-01: về vỏ xác thực lõi .g-auth-shell + thẻ .g-auth-card (cùng bố cục với quên /
+     đặt lại mật khẩu: ảnh nền + lớp phủ, thẻ nổi giữa, đầu thẻ gradient brand + icon 72, thân thẻ có nút). Trước: khối tự dựng
+     (fxLayout + style="" inline + <style> trong template — luật body/html trong đó bị đóng gói nên chưa từng ăn; lớp phủ trắng 20%
+     cứng; liên kết <a> thay vì nút). Mã lỗi = tiêu đề, câu báo = phụ đề, "Quay lại đăng nhập" = g-button (vẫn goHome()). -->
+<div class="g-auth-shell">
+  <div class="g-auth-shell__overlay"></div>
+
+  <div class="g-auth-shell__body">
+    <div class="g-card g-card--elevated g-card-w-lg g-auth-card">
+      <div class="g-auth-card__hero">
+        <div class="g-auth-card__hero-icon" aria-hidden="true"><mat-icon>{{ icon }}</mat-icon></div>
+        <h1 class="g-auth-card__title">{{ code }}</h1>
+        <!-- review 2026-10-07 vòng 2 m3: tài khoản không có vai trò nào → nói rõ lý do (không phải câu 403 chung).
+             rv5 D-03: + mọi vai trò đang bị chính sách đăng nhập chặn (guard truyền reason=policy-blocked) -->
+        @if (subtitleKey; as key) {
+          <p class="g-auth-card__subtitle">{{ key | translate }}</p>
+        } @else {
+          <p class="g-auth-card__subtitle">{{ name }}</p>
+        }
+      </div>
+
+      <div class="g-card__body">
+        <div class="g-form-actions">
+          <!-- review 2026-10-07 vòng 2 m3: không có vai trò thì "Quay lại" chỉ lặp lại trang này → ẩn, chỉ còn Đăng xuất.
+               rv6 FE-4: mọi vai trò bị chính sách chặn → nút "Thử lại" ('/' → LoginRedirectGuard tải lại gói tài khoản; vào khung giờ / mạng
+               được phép là vào lại được) thay cho "Quay lại đăng nhập". -->
+          @if (policyBlocked) {
+            <g-button icon="refresh" (click)="goHome()">{{ 'error-page.retry' | translate }}</g-button>
+          } @else if (!noRole) {
+            <g-button icon="keyboard_return" (click)="goHome()">Quay lại đăng nhập</g-button>
+          }
+          @if (showLogout) {
+            <g-button icon="logout" [type]="noRole ? 'filled' : 'outlined'" [loading]="logoutLoading" (click)="logout()">
+              {{ (logoutLoading ? 'account-menu.logging-out' : 'account-menu.logout') | translate }}
+            </g-button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

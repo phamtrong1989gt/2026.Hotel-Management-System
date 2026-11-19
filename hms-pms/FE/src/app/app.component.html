@@ -1,0 +1,20 @@
+<div id="app" class="app" [dir]="settings.rtl ? 'rtl' : 'ltr'"
+            [ngClass]="settings.theme"
+            [class.fixed-header]="settings.fixedHeader"
+            [class.horizontal-menu]="settings.menu == 'horizontal'"
+            [class.compact]="settings.menuType == 'compact'"
+            [class.mini]="settings.menuType == 'mini'">
+    <!-- review 2026-10-06 R6-M4: GIỮ router-outlet khi khoá (trước đây @if huỷ cả cây route → mất dữ liệu đang nhập ở màn toàn trang);
+         màn khoá phủ LÊN trên (z-index 2.000.000), phần nền inert để Tab/chuột/đọc màn hình không lọt xuống dưới (inert đã ẩn khỏi trợ năng —
+         không thêm aria-hidden: đặt lên tổ tiên phần tử đang focus thì Chrome cảnh báo "Blocked aria-hidden"). -->
+    <div class="app-route-content"
+         [attr.inert]="sessionIdle.locked() && !linked() ? '' : null">
+        <router-outlet />
+    </div>
+    @if (sessionIdle.locked() && !linked()) {
+      <app-session-lock />
+    }
+    <div id="app-spinner" [class.hide]="!settings.loadingSpinner">
+        <mat-spinner color="primary"></mat-spinner>
+    </div>
+</div>

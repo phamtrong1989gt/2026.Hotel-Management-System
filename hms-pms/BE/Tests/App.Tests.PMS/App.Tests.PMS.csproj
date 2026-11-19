@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Domain/PTCore.Domain.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Application/PTCore.Application.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Persistence/PTCore.Persistence.csproj" />
+    <ProjectReference Include="..\..\App.Api.PMS\App.Api.PMS.csproj" />
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Framework/PTCore.Common/PTCore.Common.csproj" />
+    <!-- Helper dùng chung + luật kiểm của lõi gọi lại cho module của phần mềm (ModuleLayoutRulesBase, SchemaRulesTests.Mappings). -->
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Tests/PTCore.Tests/PTCore.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

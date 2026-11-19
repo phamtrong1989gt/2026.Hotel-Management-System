@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>App.Api.PMS</RootNamespace>
+    <!-- OutOfProcess CỐ Ý giữ, KHÔNG đổi sang InProcess: InProcess không dùng Kestrel nên các giới hạn ConfigureKestrel của
+         PTCore.Host (gồm MinDataRate chống tấn công gửi chậm) sẽ ÂM THẦM mất hiệu lực. AspNetCoreModuleName cố ý BỎ TRỐNG để SDK dùng mặc định AspNetCoreModuleV2. -->
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <!-- Số phiên bản BẢN PHÁT HÀNH (SemVer). 0.1.0 (2026-11-20): khung trống của phần mềm PMS — chưa có nghiệp vụ. -->
+    <Version>0.1.0</Version>
+    <UserSecretsId>eb357584-3b01-5a9a-b82b-bd0b6b592497</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="logs\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="logs\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Gói của host (EF, Identity, JWT, Serilog, EPPlus…) đi theo PTCore.Host — dự án chỉ giữ công cụ EF cho việc tạo migration. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Tệp BÍ MẬT / tệp RIÊNG của từng máy: hiện được trong IDE nhưng KHÔNG BAO GIỜ vào bản publish. -->
+    <Content Update="appsettings.Local.json" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.Development.json;appsettings.Production.json;appsettings.Staging.json" CopyToPublishDirectory="Never" />
+    <None Include=".env" Condition="Exists('.env')" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <Content Update="App_Data\**" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <None Update="App_Data\**" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- HOST LÕI: pipeline, xác thực, MVC, DbContext lõi, danh sách module lõi (kéo theo mọi module PTCore.* và 5 project Framework). -->
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Host/PTCore.Host/PTCore.Host.csproj" />
+    <!-- Khách SSO cho chế độ Linked: CHỈ host phần mềm tham chiếu, Startup chỉ NẠP part + DI khi Deployment:Mode=Linked. -->
+    <ProjectReference Include="$(PlatformRoot)/src/Core/Modules/PTCore.Modules.SsoClient/PTCore.Modules.SsoClient.csproj" />
+    <!-- Module của PHẦN MỀM -->
+    <ProjectReference Include="..\Modules\App.Modules.PMS\App.Modules.PMS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Xuất Excel DANH SÁCH của MỌI module — chép export.json (Export\<Module>\export.json) ra thư mục chạy bằng MỘT dòng chung: thêm module mới KHÔNG phải sửa csproj (tránh xung đột gộp song song). Mẫu .xlsx (nếu có) khai TƯỜNG MINH riêng theo gate ExportTemplateCopyRulesTests. -->
+    <None Update="Export\**\export.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

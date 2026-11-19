@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/BE/">
+    <Project Path="BE/App.Api.PMS/App.Api.PMS.csproj" />
+    <Project Path="BE/Modules/App.Modules.PMS/App.Modules.PMS.csproj" />
+    <Project Path="BE/Tests/App.Tests.PMS/App.Tests.PMS.csproj" />
+  </Folder>
+</Solution>

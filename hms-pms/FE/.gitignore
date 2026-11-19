@@ -1,0 +1,73 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Bí mật (.env…), nhật ký, tệp tạm, hệ điều hành: đã chặn ở .gitignore gốc repo phần mềm; tệp này chỉ khai luật riêng của giao diện Angular.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# ── Tệp SINH TỰ ĐỘNG — KHÔNG commit (tránh conflict, ngày nào cũng đổi theo nguồn) ──
+# Chạy lại ở postinstall / prestart / prebuild / prewatch (xem package.json) nên clone mới
+# chỉ cần `npm ci` là đủ.
+# i18n GỘP (npm run i18n:build / pre-hooks). Nguồn THẬT để commit:
+#   platform/i18n/{vi,en}.json (nguồn chung) + src/app/modules/<x>/<resource>/i18n/{vi,en}.json + src/app/features/<m>/<resource>/i18n/{vi,en}.json
+/src/assets/i18n-platform/
+# examples-build.mjs quét doc-v3/examples/ rồi sinh 2 thứ dưới đây. Nguồn THẬT để commit:
+#   doc-v3/examples/** (nguồn chung)
+/src/assets/examples-source/
+/src/app/platform/doc-v3/generated/
+# Monaco Editor: angular.json đã copy node_modules/monaco-editor/min/vs → assets/vs lúc build,
+# bản trong src/assets/vs (103 tệp, ~14 MB) chỉ là bản sao thừa.
+/src/assets/vs/
+# Sinh bởi scripts/web-config-build.mjs (CSP dựng từ environment.prod.ts) — khung là ./web.config
+/src/web.config
+
+# Khoá RSA công khai nạp lúc ĐÓNG GÓI (npm run crypto:set-key / prebuild --ensure) và môi trường UAT do công cụ triển khai sinh — KHÔNG commit
+# (cổng check:crypto-key CK-04 đòi tên tệp sinh nằm trong .gitignore).
+/src/environments/crypto-bootstrap-key.generated.ts
+/src/environments/environment.uat.ts
+/src/environments/environment.uat-*
+
+# Node
+/node_modules
+npm-debug.log
+npm-debug.log*
+yarn-error.log
+yarn-debug.log*
+pnpm-debug.log*
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# System files
+.DS_Store
+Thumbs.db
+# Asset Monaco chép vào đây bởi Core/FE/tools/sync-monaco-assets.mjs (angular.json không nhận asset ngoài gốc dự án; node_modules hoist ở thư mục src của lõi). Sinh lại được.
+/.generated/

@@ -1,0 +1,23 @@
+{
+  "profiles": {
+    "App.Api.PMS": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "scalar",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:5701;http://localhost:5700"
+    },
+    "App.Api.PMS.Agent": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ApiSettings__UseCors": "http://localhost:4910"
+      },
+      "applicationUrl": "https://localhost:5711;http://localhost:5710"
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json"
+}

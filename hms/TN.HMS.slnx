@@ -1,0 +1,35 @@
+<Solution>
+  <Folder Name="/pms/">
+    <Project Path="../hms-pms/BE/App.Api.PMS/App.Api.PMS.csproj" />
+    <Project Path="../hms-pms/BE/Modules/App.Modules.PMS/App.Modules.PMS.csproj" />
+    <Project Path="../hms-pms/BE/Tests/App.Tests.PMS/App.Tests.PMS.csproj" />
+  </Folder>
+  <Folder Name="/core-platform/" />
+  <Folder Name="/core-platform/Core/">
+    <Project Path="../../0.Core/src/Core/Framework/PTCore.Application/PTCore.Application.csproj" />
+    <Project Path="../../0.Core/src/Core/Framework/PTCore.AspNetCore/PTCore.AspNetCore.csproj" />
+    <Project Path="../../0.Core/src/Core/Framework/PTCore.Common/PTCore.Common.csproj" />
+    <Project Path="../../0.Core/src/Core/Framework/PTCore.Domain/PTCore.Domain.csproj" />
+    <Project Path="../../0.Core/src/Core/Framework/PTCore.Persistence/PTCore.Persistence.csproj" />
+    <Project Path="../../0.Core/src/Core/Host/PTCore.Host/PTCore.Host.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.AuditLog/PTCore.Modules.AuditLog.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.Category/PTCore.Modules.Category.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.CMS/PTCore.Modules.CMS.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.FileStorage/PTCore.Modules.FileStorage.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.Identity/PTCore.Modules.Identity.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.IdentityProvider/PTCore.Modules.IdentityProvider.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.Notification/PTCore.Modules.Notification.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.Operations/PTCore.Modules.Operations.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.Platform/PTCore.Modules.Platform.csproj" />
+    <Project Path="../../0.Core/src/Core/Modules/PTCore.Modules.SsoClient/PTCore.Modules.SsoClient.csproj" />
+    <Project Path="../../0.Core/src/Core/Tests/PTCore.Tests/PTCore.Tests.csproj" />
+  </Folder>
+  <Folder Name="/core-platform/Services/">
+    <Project Path="../../0.Core/src/Services/File/BE/File.Api/File.Api.csproj" />
+    <Project Path="../../0.Core/src/Services/File/BE/File.Tests/File.Tests.csproj" />
+    <Project Path="../../0.Core/src/Services/Gateway/BE/PTCore.API.Gateway/PTCore.API.Gateway.csproj" />
+    <Project Path="../../0.Core/src/Services/Gateway/BE/Tests/PTCore.API.Gateway.Tests/PTCore.API.Gateway.Tests.csproj" />
+    <Project Path="../../0.Core/src/Services/Sso/BE/PTCore.API.SSO/PTCore.API.SSO.csproj" />
+    <Project Path="../../0.Core/src/Services/Sso/BE/Tests/PTCore.API.SSO.Tests/PTCore.API.SSO.Tests.csproj" />
+  </Folder>
+</Solution>

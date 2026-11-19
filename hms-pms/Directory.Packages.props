@@ -1,0 +1,4 @@
+<Project>
+  <!-- Phiên bản gói TRUNG TÂM lấy từ lõi nền tảng (một nguồn). PlatformRoot khai ở Directory.Build.props cùng thư mục. -->
+  <Import Project="$(PlatformRoot)/Directory.Packages.props" Condition="Exists('$(PlatformRoot)/Directory.Packages.props')" />
+</Project>

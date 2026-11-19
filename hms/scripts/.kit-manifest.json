@@ -1,0 +1,32 @@
+{
+  "kit": "project",
+  "schema": 1,
+  "coreVersion": "7.0.0",
+  "platformRef": "7.0.x",
+  "files": {
+    "README.md": "1eb490327fbbcf82869ded855c16d8c46a321478f6ac03c5a75bbe5a02fc1fb7",
+    "check-apps.mjs": "3333da7a22802ee19ad7a23993698e6e25f23c66e68f19b87739628fac0e62ce",
+    "check-apps.test.mjs": "7351b5c0cf24d4c0bb2ca6f4e927c851506e1dbe61b652e9106461050e7187df",
+    "check-ports.mjs": "2d7b72a7d1ce8607389b376c520c68e9ebd274eecfbe2fd710c4e6853434d7ec",
+    "check-ports.test.mjs": "26b6d97ad0086fe5265854bb2b158a85e3b8639fb880ef72adbf70634ad7ff95",
+    "config-sync.mjs": "c81799e4263d10a53df5362d3e887dd49126992f6b709a02aab3fbdd5605f3bd",
+    "config-sync.test.mjs": "c07298d35513880cc158e8dac3b10d8a2d6bfe91ee78f96424726f31de7c6ed1",
+    "fe-node-modules.mjs": "64ff591b6275eaf44b93d0e0f75faccccbaf9c1b3952d5b59312a77065757c1b",
+    "fe-node-modules.test.mjs": "bd14b5587c9214217d04b5aa54d60421a580403772a90c358e1f351963687021",
+    "gen-adm-script.cs": "ba2510adf7c1b7bb8e73d0f2a6d3bc082069d7ddb3ac7664504ab1390018635e",
+    "gen-adm-script.mjs": "eeaedf5ac9fa5ba48cdf945756cabcefe21c8b66f464a783b71749768092261e",
+    "lib/Workspace.ps1": "fa0918837d697d7d34c86b8eb40374393740c001001033b15bc4711d985ec9c5",
+    "lib/apps.mjs": "e9e77b6dffc6b4f6ceb4060f8e4b5cd19520d103cb708287db9c20d53d11827f",
+    "lib/apps.test.mjs": "f638af9e28a9fe5ca032d193b36bcc21d25cf4ba47d25c66270f52b21564df04",
+    "lib/jsonc.mjs": "b5af1f208375b249b2eb1e1d8ac2d76d9e788917995d7df632caaddc4b40b52a",
+    "lib/jsonc.test.mjs": "ee57858c5836961a32ae035ff715dbeacb4732ca872d3cf5d63e8abd407ebc55",
+    "lib/mini-yaml.mjs": "3ec5f100f1bc00db97abf8cbbe99b9169caa840a94d1a69d36875b10b283dc6c",
+    "lib/workspace-missing-apps.test.mjs": "7880c505768e1ac94f836a76b3fe342df92ee43faf4d4da539250818c73679a6",
+    "lib/workspace-platform-root.test.mjs": "17a193a58e96fa0b132dd07470a1573db0bac69bb52594b9265c0705c978ffaf",
+    "lib/workspace-ps1.test.mjs": "062e530a2861ce8118ed96f9509cf71dc0e1536cf0141e1c4024b02c0f904967",
+    "lib/workspace.mjs": "983b8faceaf5162b26f22eb2ee97dfc96687c7715eada795cb82644d2173b103",
+    "lib/workspace.test.mjs": "331a4c9140d373ee98f88693257497a017d6bf13f12b520c798c514bd305c89d",
+    "sync-claude-dirs.mjs": "b2e0b765a25aa479b5dc3b01fc4cd39367c91f3c008fd95627729fd8735d60e6",
+    "sync-claude-dirs.test.mjs": "e9bdbeb97458a17d3eef28a255fcdc655b94258645aad341f194aaac04ca5f58"
+  }
+}

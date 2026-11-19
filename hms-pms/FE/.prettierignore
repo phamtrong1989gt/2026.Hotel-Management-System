@@ -1,0 +1,9 @@
+dist
+node_modules
+coverage
+.angular
+src/app/platform/vendor
+src/assets
+public
+package-lock.json
+*.min.js

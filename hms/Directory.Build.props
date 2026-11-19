@@ -1,0 +1,21 @@
+<Project InitialTargets="PtCorePlatformRootCheck">
+  <!--
+    Tệp MỎNG của thư mục dự án (dự án Hotel Management System): lấy cấu hình build chung từ LÕI nền tảng. Mặc định lõi nằm ở «../../0.Core» TÍNH TỪ THƯ MỤC NÀY
+    (đường dẫn tương đối theo bố cục chuẩn: các repo của dự án nằm cạnh nhau, lõi nằm ngoài). Clone về đúng bố cục đó thì build được ngay, không cần cấu hình gì.
+    Lõi nằm chỗ khác trên máy riêng (KHÔNG commit): tạo platform.local.props khai <PlatformRoot>, hoặc đặt biến môi trường PLATFORM_ROOT.
+  -->
+  <Import Project="$(MSBuildThisFileDirectory)platform.local.props" Condition="Exists('$(MSBuildThisFileDirectory)platform.local.props')" />
+  <PropertyGroup>
+    <PlatformRoot Condition="'$(PlatformRoot)' == '' and '$(PLATFORM_ROOT)' != ''">$(PLATFORM_ROOT)</PlatformRoot>
+    <PlatformRoot Condition="'$(PlatformRoot)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../0.Core'))</PlatformRoot>
+  </PropertyGroup>
+  <Import Project="$(PlatformRoot)/Directory.Build.props" Condition="Exists('$(PlatformRoot)/Directory.Build.props')" />
+  <!-- InitialTargets: chạy TRƯỚC mọi target (kể cả restore) — lõi sai chỗ thì báo ngay câu chỉ cách sửa, không để NuGet báo «không thấy dự án» khó hiểu. -->
+  <Target Name="PtCorePlatformRootCheck" Condition="!Exists('$(PlatformRoot)/Directory.Build.props')">
+    <Error Text="Không tìm thấy lõi nền tảng tại '$(PlatformRoot)'. Lõi phải nằm ở '../../0.Core' tính từ '$(MSBuildThisFileDirectory)' (bố cục chuẩn: repo của dự án nằm cạnh nhau, lõi nằm ngoài), hoặc khai vị trí thật ở platform.local.props (&lt;PlatformRoot&gt;) / biến môi trường PLATFORM_ROOT." />
+  </Target>
+  <PropertyGroup>
+    <!-- Lõi chỉ bật «cảnh báo nullable là LỖI» cho project nằm dưới src\ của CHÍNH nó; repo này không có src\ nên bật lại ở đây để KHÔNG nới luật cũ. -->
+    <WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>
+  </PropertyGroup>
+</Project>

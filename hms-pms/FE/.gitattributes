@@ -1,0 +1,18 @@
+# Chuẩn hoá line-ending: mọi file text checkout LF trên MỌI nền (Windows/Linux/macOS).
+# Lý do: Platform Kit sync (platform-hash/platform-pull) hash nội dung file — nếu line-ending
+# lệch giữa các project (CRLF Windows vs LF Linux/git-autocrlf) sẽ báo nhầm "đã patch"/CONFLICT.
+* text=auto eol=lf
+
+# Binary — KHÔNG đụng, KHÔNG normalize.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.eot    binary
+*.pdf    binary
+*.mp4    binary
+*.webm   binary

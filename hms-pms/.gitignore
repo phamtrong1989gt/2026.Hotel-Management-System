@@ -1,0 +1,230 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# .gitignore — Hotel Management System (BE .NET + FE Angular)
+#
+# Dựng bởi `_bmad/tests/new-project.mjs` (lõi). Quy ước: mỗi nhóm một khối có tiêu đề; luật phủ định (!) đặt NGAY SAU luật nó loại trừ.
+# KHÔNG thêm luật theo TÊN THƯ MỤC chung chung (keys/, backup/, export/, logs/ …) — mã nguồn có thể có thư mục tên đó và sẽ bị ignore nhầm.
+# Kiểm tra: git check-ignore -v <đường-dẫn>      (thêm --no-index nếu tệp đã được track)
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1. BÍ MẬT & THÔNG TIN ĐĂNG NHẬP — KHÔNG BAO GIỜ commit
+#    Mẫu: .env.example (chỉ TÊN biến, không giá trị bí mật) — sinh bằng `node scripts/config-sync.mjs --sync`
+# ──────────────────────────────────────────────────────────────────────────────
+# Tệp biến môi trường — nơi DUY NHẤT chứa bí mật thật + giá trị riêng từng máy
+.env
+.env.*
+*.env
+# Tệp MẪU thì phải commit — chỉ chứa TÊN biến, không chứa giá trị.
+# Thiếu các dòng này thì `.env.*` ở trên nuốt luôn cả tệp mẫu.
+!.env.example
+!.env.sample
+!.env.template
+!.env.uat.example
+
+# Cấu hình ghi đè theo môi trường / máy. appsettings.json và appsettings.{Lĩnh vực}.json (Clock, Security, …) VẪN được theo dõi —
+# phần bí mật trong đó là placeholder "ENV:..." (SecretsValidator + ConfigLayeringTests canh).
+appsettings.Development.json
+appsettings.Staging.json
+appsettings.Production.json
+appsettings.Local.json
+appsettings.Secrets.json
+# File API: tệp client chứa BĂM token + đường dẫn kho thật của từng máy — KHÔNG commit (tệp MẪU appsettings.Clients.example.json thì commit).
+appsettings.Clients.json
+appsettings.*.local.json
+secrets.json
+secrets/
+SECRETS.local.md
+
+# Khóa riêng · chứng chỉ · kho khóa
+*.pfx
+*.p12
+*.pem
+*.key
+*.jks
+*.keystore
+*.ppk
+*.snk
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+# Khóa Data Protection của ASP.NET Core (nếu cấu hình lưu ra tệp)
+DataProtection-Keys/
+
+# Tài khoản dịch vụ / client secret tải từ cloud (Google, Firebase …)
+*service-account*.json
+*serviceAccount*.json
+firebase-adminsdk*.json
+client_secret*.json
+credentials.json
+
+# Hồ sơ publish kiểu Web Deploy / FTP có thể chứa mật khẩu triển khai. Chỉ giữ hồ sơ publish ra thư mục (không có thông tin đăng nhập).
+*.publishsettings
+*.pubxml
+!**/PublishProfiles/FolderProfile.pubxml
+
+# Bản ghi đè docker-compose của riêng từng máy (hay chứa mật khẩu dev)
+docker-compose.override.yml
+docker-compose.override.yaml
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2. TRẠNG THÁI CHẠY & DỮ LIỆU NGƯỜI DÙNG (BE)
+#    Thuộc về MỘT máy chủ, không phải mã nguồn.
+# ──────────────────────────────────────────────────────────────────────────────
+# App_Data: bản lưu cấu hình (có thể chứa bí mật), cờ bảo trì, lịch sử sao lưu/dọn dữ liệu…
+**/App_Data/
+
+# Tệp người dùng tải lên.
+**/wwwroot/uploads/*
+!**/wwwroot/uploads/.gitkeep
+
+# Nhật ký ứng dụng — LogStorage:Root mặc định là "logs" (tương đối thư mục host API).
+# Cố ý neo đường dẫn, KHÔNG dùng `logs/` trần: sẽ nuốt các thư mục mã nguồn tên "logs" (vd _contracts/.../logs).
+/logs/
+/BE/App.Api.*/logs/
+*.log
+
+# Tệp cơ sở dữ liệu & bản dump (script .sql thì vẫn commit — scripts/sql/)
+*.mdf
+*.ldf
+*.ndf
+*.bacpac
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# Crash dump (có thể chứa bí mật nằm trong bộ nhớ)
+*.dmp
+*.mdmp
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3. .NET — build · test · IDE
+# ──────────────────────────────────────────────────────────────────────────────
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Pp]ublish/
+PublishScripts/
+artifacts/
+.gate-out/
+*.nupkg
+*.snupkg
+
+# Kết quả test & độ phủ
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+*.cobertura.xml
+*.opencover.xml
+coverage/
+coverage*.xml
+coverage*.json
+lcov.info
+BenchmarkDotNet.Artifacts/
+StrykerOutput/
+
+# Visual Studio / Rider / ReSharper
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.userprefs
+_ReSharper*/
+.idea/
+*.iml
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4. NODE / FE
+# ──────────────────────────────────────────────────────────────────────────────
+# FE\node_modules thường là LIÊN KẾT cục bộ do `node scripts/fe-node-modules.mjs --link` tạo (trỏ về bản cài ở lõi) — KHÔNG commit liên kết / junction.
+node_modules/
+.angular/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+*.tgz
+# Khoá RSA CÔNG KHAI nạp lúc đóng gói (`npm run crypto:set-key`) — tệp SINH, mỗi môi trường triển khai một giá trị riêng; KHÔNG commit.
+**/src/environments/crypto-bootstrap-key.generated.ts
+**/src/environments/crypto-bootstrap-key.generated.ts.bak-*
+# Cấu hình FE cho UAT do công cụ triển khai sinh — chứa tên miền của từng môi trường.
+**/src/environments/environment.uat.ts
+**/src/environments/environment.uat.ts.bak-*
+**/src/environments/environment.uat-*
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5. EDITOR · CÔNG CỤ AI CỤC BỘ
+# ──────────────────────────────────────────────────────────────────────────────
+# VS Code: chỉ chia sẻ cấu hình dùng chung. KHÔNG chia sẻ settings.json — extension SQL Server lưu hồ sơ kết nối, có thể kèm mật khẩu, thẳng vào tệp đó.
+**/.vscode/*
+!**/.vscode/extensions.json
+!**/.vscode/launch.json
+!**/.vscode/tasks.json
+!**/.vscode/*.code-snippets
+.history/
+*.swp
+*.swo
+
+# Claude Code: quyền & đường dẫn RIÊNG từng người. settings.json / commands/ dùng chung → vẫn commit.
+**/.claude/settings.local.json
+**/.claude/*.lock
+**/.claude/worktrees/
+CLAUDE.local.md
+
+# Nhật ký phiên của KHUNG (`_bmad`) — của riêng từng máy/người, không theo dõi.
+/_bmad/_session/
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 6. HỆ ĐIỀU HÀNH · TỆP TẠM · BẢN SAO LƯU
+# ──────────────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Tệp khoá tạm của Word/Excel khi đang mở
+~$*
+
+# Tệp tạm, sao lưu tay, phần dư của merge. *.bak gồm cả bản backup SQL Server.
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*~
+
+# Báo cáo của công cụ quét an ninh (đường dẫn nội bộ) — không commit.
+.security-scan/
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 7. TUỲ BIẾN THEO MÁY (không commit): vị trí lõi, thư mục .local, tệp riêng
+# ──────────────────────────────────────────────────────────────────────────────
+**/.local/
+*.private.*
+*.local.sln
+*.local.slnx
+platform.local.props
+workspace.local.json

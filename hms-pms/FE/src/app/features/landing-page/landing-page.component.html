@@ -1,0 +1,270 @@
+<div class="statistics-center-container">
+    <div class="lp-root">
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-blob hero-blob-1"></div>
+      <div class="hero-blob hero-blob-2"></div>
+      <div class="hero-blob hero-blob-3"></div>
+    </div>
+
+    <div class="container hero-content">
+      <span class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        Nhãn giới thiệu
+      </span>
+
+      <h1 class="hero-title">
+        Tiêu đề <span class="hero-title-grad">trang giới thiệu</span>
+        <br />
+        <span class="hero-title-soft">mô tả ngắn của dự án</span>
+      </h1>
+
+      <p class="hero-desc">
+        Nội dung giới thiệu sẽ được cập nhật theo dự án.
+      </p>
+
+      @if (sections.length > 0 || steps.length > 0) {
+        <div class="hero-actions">
+          @if (sections.length > 0) {
+            <button type="button" class="btn btn-primary" (click)="scrollTo('catalog')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+              Khám phá danh mục
+            </button>
+          }
+          @if (steps.length > 0) {
+            <button type="button" class="btn btn-ghost" (click)="scrollTo('how-it-works')">
+              Quy trình hoạt động
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+          }
+        </div>
+      }
+
+      @if (stats.length > 0) {
+        <div class="hero-floats">
+          @for (s of stats; track s.label) {
+            <div class="hero-float">
+              <div class="hero-float-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="s.iconPath"/>
+                </svg>
+              </div>
+              <div class="hero-float-text">
+                <div class="hero-float-value">{{ s.value }}</div>
+                <div class="hero-float-label">{{ s.label }}</div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (sections.length > 0) {
+      <div class="hero-scroll-hint" (click)="scrollTo('catalog')">
+        <span>Cuộn xuống</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+      </div>
+    }
+  </section>
+
+  <!-- ========== CATALOG (Gallery) ========== -->
+  @if (sections.length > 0) {
+  <section id="catalog" class="catalog">
+    <div class="container">
+      <div class="section-eyebrow">
+        <span></span>Danh mục
+      </div>
+      <div class="section-headline">
+        <h2 class="section-h2">Toàn bộ danh mục</h2>
+        <p class="section-sub">
+          Tổng cộng <strong>{{ totalCards }}</strong> mục — tìm kiếm hoặc lọc theo nhóm để xem chi tiết.
+        </p>
+      </div>
+
+      <div class="catalog-toolbar">
+        <div class="filter-pills">
+          @for (f of filters; track f.key) {
+            <button type="button"
+                    class="pill"
+                    [class.active]="activeFilter === f.key"
+                    (click)="setFilter(f.key)">
+              {{ f.label }}
+            </button>
+          }
+        </div>
+
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text"
+                 placeholder="Tìm kiếm..."
+                 [(ngModel)]="searchTerm" />
+          @if (searchTerm) {
+            <button type="button" class="search-clear" (click)="clearSearch()" aria-label="Xóa">×</button>
+          }
+        </div>
+      </div>
+
+      @if (visibleSections.length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3>Không tìm thấy kết quả</h3>
+          <p>Thử từ khóa khác hoặc bỏ bộ lọc.</p>
+        </div>
+      }
+
+      @for (section of visibleSections; track section.key) {
+        <div class="cat-section">
+          <div class="cat-section-header">
+            <div class="section-icon"
+                 [style.background-color]="section.iconBg || null"
+                 [style.color]="section.iconColor || null">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="section.iconPath"/>
+              </svg>
+            </div>
+            <div class="cat-section-text">
+              <h3>{{ section.title }}</h3>
+              <span>{{ section.short }} · {{ section.cards.length }} mục</span>
+            </div>
+          </div>
+
+          <div class="grid">
+            @for (card of section.cards; track card.title) {
+              <div class="card" (click)="openLightboxByCard(card)">
+                <div class="card-img-wrapper" [ngClass]="card.placeholder">
+                  <img [src]="card.imgUrl"
+                       [alt]="card.alt"
+                       class="card-img">
+                  <div class="card-overlay">
+                    <div class="card-overlay-btn">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                      Xem ảnh lớn
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-content">
+                  <h4 class="card-title">{{ card.title }}</h4>
+                  <p class="card-subtitle">{{ card.subtitle }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+  }
+
+  <!-- ========== FEATURES ========== -->
+  @if (features.length > 0) {
+  <section class="features">
+    <div class="container">
+      <div class="section-eyebrow center">
+        <span></span>Điểm nổi bật
+      </div>
+      <div class="section-headline center">
+        <h2 class="section-h2">Điểm nổi bật</h2>
+        <p class="section-sub">
+          Mô tả ngắn các điểm nổi bật.
+        </p>
+      </div>
+
+      <div class="feat-grid">
+        @for (f of features; track f.title) {
+          <div class="feat-card">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="f.iconPath"/>
+              </svg>
+            </div>
+            <h3 class="feat-title">{{ f.title }}</h3>
+            <p class="feat-desc">{{ f.desc }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========== HOW IT WORKS ========== -->
+  @if (steps.length > 0) {
+  <section id="how-it-works" class="howto">
+    <div class="container">
+      <div class="section-eyebrow center light">
+        <span></span>Quy trình
+      </div>
+      <div class="section-headline center light">
+        <h2 class="section-h2">Quy trình thực hiện</h2>
+        <p class="section-sub">
+          Mô tả ngắn quy trình thực hiện.
+        </p>
+      </div>
+
+      <div class="steps">
+        @for (s of steps; track s.num) {
+          <div class="step">
+            <div class="step-num">{{ s.num }}</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="s.iconPath"/>
+              </svg>
+            </div>
+            <h3 class="step-title">{{ s.title }}</h3>
+            <p class="step-desc">{{ s.desc }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="lp-footer">
+    <div class="container">
+      <p>© {{ 2026 }} · Thông tin đơn vị.</p>
+    </div>
+  </footer>
+
+  <!-- ========== LIGHTBOX ========== -->
+  <div #overlay
+       class="lightbox-overlay"
+       [class.active]="lightboxOpen"
+       (click)="onOverlayClick($event, overlay)">
+    <div class="lightbox-sidebar">
+      @for (item of gallery; track item.src; let i = $index) {
+        @if (isFirstThumbOfSection(i)) {
+          <div class="lb-section-label">{{ sectionNameAt(i) }}</div>
+        }
+        <div class="lb-thumb"
+             [class.active]="i === currentIdx"
+             (click)="showImage(i)">
+          <img [src]="item.src" [alt]="item.alt">
+          <div class="lb-thumb-label">{{ item.title }}</div>
+        </div>
+      }
+    </div>
+
+    <div class="lightbox-main">
+      <button class="lb-close" (click)="closeLightbox()">&times;</button>
+      <button class="lb-nav lb-prev" (click)="navLightbox(-1)">&#10094;</button>
+      <div class="lb-img-container">
+        @if (currentItem) {
+          <img [src]="currentItem.src" [alt]="currentItem.alt">
+        }
+      </div>
+      <button class="lb-nav lb-next" (click)="navLightbox(1)">&#10095;</button>
+      <div class="lb-caption">
+        <h3>{{ currentItem?.title }}</h3>
+        <p>{{ currentItem?.subtitle }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>

@@ -1,0 +1,14 @@
+# File dữ liệu SQL Server (đang bị SQL Server khoá, nặng, không đưa lên git)
+*.mdf
+*.ldf
+*.ndf
+*.bak
+
+# IDE / hệ điều hành ở cấp gốc
+.vs/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Thư mục database/ (script/dữ liệu SQL Server cục bộ) — repo công khai nên không đưa lên
+database/

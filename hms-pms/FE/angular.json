@@ -1,0 +1,319 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "pms": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/pms",
+            "subresourceIntegrity": true,
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": ".generated/monaco-vs",
+                "output": "assets/vs"
+              },
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "web.config",
+                "input": "src",
+                "output": "."
+              }
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "clone-deep",
+              "rfdc",
+              "bezier-easing"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "../../../0.Core/src/Core/FE"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "color-functions",
+                  "global-builtin",
+                  "import"
+                ]
+              }
+            }
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/environments/crypto-bootstrap-key.ts",
+                  "with": "src/environments/crypto-bootstrap-key.generated.ts"
+                },
+                {
+                  "replace": "../../../0.Core/src/Core/FE/platform/doc-v3/doc-v3.routes.ts",
+                  "with": "../../../0.Core/src/Core/FE/platform/doc-v3/doc-v3.routes.off.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3.1mb",
+                  "maximumError": "6MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "40kB",
+                  "maximumError": "60kB"
+                },
+                {
+                  "type": "bundle",
+                  "name": "styles",
+                  "maximumWarning": "750kB",
+                  "maximumError": "900kB"
+                }
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "output": "assets",
+                  "ignore": [
+                    "examples-source/**"
+                  ]
+                },
+                {
+                  "glob": "**/*",
+                  "input": ".generated/monaco-vs",
+                  "output": "assets/vs"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                },
+                {
+                  "glob": "web.config",
+                  "input": "src",
+                  "output": "."
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "uat": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.uat.ts"
+                },
+                {
+                  "replace": "src/environments/crypto-bootstrap-key.ts",
+                  "with": "src/environments/crypto-bootstrap-key.generated.ts"
+                },
+                {
+                  "replace": "../../../0.Core/src/Core/FE/platform/doc-v3/doc-v3.routes.ts",
+                  "with": "../../../0.Core/src/Core/FE/platform/doc-v3/doc-v3.routes.off.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3.1mb",
+                  "maximumError": "6MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "40kB",
+                  "maximumError": "60kB"
+                },
+                {
+                  "type": "bundle",
+                  "name": "styles",
+                  "maximumWarning": "750kB",
+                  "maximumError": "900kB"
+                }
+              ],
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "output": "assets",
+                  "ignore": [
+                    "examples-source/**"
+                  ]
+                },
+                {
+                  "glob": "**/*",
+                  "input": ".generated/monaco-vs",
+                  "output": "assets/vs"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                },
+                {
+                  "glob": "web.config",
+                  "input": "src",
+                  "output": "."
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": false,
+              "subresourceIntegrity": false
+            },
+            "agent": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": false,
+              "subresourceIntegrity": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.agent.ts"
+                }
+              ]
+            },
+            "linked": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": false,
+              "subresourceIntegrity": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.linked.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "pms:build:production"
+            },
+            "development": {
+              "buildTarget": "pms:build:development",
+              "ssl": true,
+              "sslCert": "../../../0.Core/src/.local/certs/localhost.pem",
+              "sslKey": "../../../0.Core/src/.local/certs/localhost.key",
+              "port": 4900,
+              "headers": {
+                "Content-Security-Policy-Report-Only": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' blob: https://localhost:5701; connect-src 'self' https://localhost:5701 wss://localhost:5701 https://www.google.com/recaptcha/; worker-src 'self' blob:; frame-src 'self' https://www.google.com/recaptcha/; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+              }
+            },
+            "linked": {
+              "buildTarget": "pms:build:linked",
+              "ssl": true,
+              "sslCert": "../../../0.Core/src/.local/certs/localhost.pem",
+              "sslKey": "../../../0.Core/src/.local/certs/localhost.key",
+              "port": 4900,
+              "headers": {
+                "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' blob: https://localhost:5701; connect-src 'self' https://localhost:5701 wss://localhost:5701 https://www.google.com/recaptcha/; worker-src 'self' blob:; frame-src 'self' https://www.google.com/recaptcha/; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+              }
+            },
+            "agent": {
+              "buildTarget": "pms:build:agent",
+              "port": 4910,
+              "headers": {
+                "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https:; media-src 'self' blob: https://localhost:5711; connect-src 'self' https://localhost:5711 wss://localhost:5711 https://www.google.com/recaptcha/; worker-src 'self' blob:; frame-src 'self' https://www.google.com/recaptcha/; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+              }
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

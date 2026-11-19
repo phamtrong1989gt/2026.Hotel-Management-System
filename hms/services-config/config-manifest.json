@@ -1,0 +1,39 @@
+{
+  "_doc": [
+    "PHẦN CỦA DỰ ÁN Hotel Management System trong luật cấu hình dùng chung. Bản chung — mẫu appsettings.*.json + các luật R1–R6 — nằm ở LÕI: src/Core/Host/PTCore.Host/ConfigTemplates/manifest.json; lõi chỉ biết SSO (dịch vụ cùng lõi), KHÔNG biết phần mềm nghiệp vụ nào.",
+    "Tệp này THÊM phần mềm của dự án vào các mục của manifest lõi: apps (phần mềm → thư mục API) · shared[<tệp>].apps · perApp · scaffold.appliesTo / registrations · envExample.appOnly / knownGap. Khoá lạ ở cấp trên là LỖI (không bỏ qua lặng lẽ).",
+    "Đọc bởi scripts/config-sync.mjs và test PTCore.Tests/Host/ConfigParityTests (hai bên dùng CÙNG phép gộp). Thêm phần mềm mới: khai ở 'apps', xếp từng tệp appsettings vào 'shared' (có bản mẫu) hoặc 'perApp', thêm vào scaffold.appliesTo, rồi `node scripts/config-sync.mjs --sync`. Đường dẫn trong tệp này là đường dẫn LOGIC (src/Apps/<Mã>/…) — công cụ tự dịch sang repo của phần mềm theo workspace.json.",
+    "knownGap = thiếu ĐÃ BIẾT (mục vàng, không đỏ): ghi lý do thật và XOÁ dòng khi đã làm xong (còn dòng mà đã có mặt ⇒ ĐỎ)."
+  ],
+  "apps": {
+    "PMS": "src/Apps/PMS/BE/App.Api.PMS"
+  },
+  "shared": {
+    "appsettings.Clock.json":        { "apps": ["PMS"] },
+    "appsettings.Notification.json": { "apps": ["PMS"] },
+    "appsettings.Alerts.json":       { "apps": ["PMS"] },
+    "appsettings.Security.json":     { "apps": ["PMS"] },
+    "appsettings.ExportExcel.json":  { "apps": ["PMS"] },
+    "appsettings.MediaAreas.json":   { "apps": ["PMS"] },
+    "appsettings.Logging.json":      { "apps": ["PMS"] },
+    "appsettings.Authorize.json":    { "apps": ["PMS"] }
+  },
+  "perApp": {
+    "PMS": ["appsettings.Branding.json"]
+  },
+  "scaffold": {
+    "appliesTo": ["PMS"],
+    "registrations": [
+      { "file": "scripts/dev-stack.ps1", "needle": "{code}", "what": "bật / tắt cùng bộ dịch vụ DEV (/stack)",
+        "knownGap": { "PMS": "khung mới dựng: chưa có mục pms trong scripts/dev-stack.ps1 (dự án chưa dùng bộ bật/tắt dịch vụ dev) — làm khi phần mềm có cách chạy ổn định" } },
+      { "file": "scripts/smoke-stack.mjs", "needle": "{code}", "what": "kiểm nhanh bộ dịch vụ (smoke)",
+        "knownGap": { "PMS": "khung mới dựng: chưa có điểm kiểm pms trong scripts/smoke-stack.mjs — làm cùng lúc với dev-stack" } },
+      { "file": "services-config/gateway/appsettings.Gateway.json", "needle": "{code}", "what": "tuyến + cụm của gateway",
+        "knownGap": { "PMS": "khung mới dựng: pms chưa có tuyến ở services-config/gateway/appsettings.Gateway.json — coder chốt tên miền + SSL rồi mới thêm" } }
+    ]
+  },
+  "envExample": {
+    "appOnly": {},
+    "knownGap": {}
+  }
+}

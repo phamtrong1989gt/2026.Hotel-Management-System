@@ -1,0 +1,50 @@
+# app.yaml — HỒ SƠ ỨNG DỤNG của phần mềm PMS (Property Management System), nguồn chân lý MÁY ĐỌC (D-CORE-77 P1).
+# Công cụ quét hồ sơ phần mềm qua scripts/lib/apps.mjs ở thư mục DỰ ÁN; kiểm hợp lệ bằng `node scripts/check-apps.mjs` (chạy ở thư mục dự án).
+# QUY TẮC: chỉ ghi giá trị ĐÃ KIỂM. Trường không chắc ⇒ để TRỐNG (null) + chú thích, KHÔNG đoán.
+# Mọi đường dẫn trong `paths` là đường dẫn LOGIC tính từ «gốc kho» (dấu /, không bắt đầu bằng /, không chứa ".."): công cụ tự dịch sang repo thật theo workspace.json của dự án — nên không phụ thuộc ổ đĩa / tên máy.
+# Nguồn gốc: dựng 2026-11-20 bằng `_bmad/tests/new-project.mjs` (lõi) theo quy trình chuẩn D-CORE-165 bước 0 — khung trống (host + module + test) để cổng xanh trước khi thiết kế.
+
+# Mã phần mềm: PHẢI trùng tên thư mục logic `src/Apps/PMS` (check-apps kiểm). Dùng ở các lệnh `--app PMS`.
+code: PMS
+
+# Mã phần mềm ở máy chủ SSO (adm.App.Code) — dòng `hms` của CSDL SSO dev (HMS.SSO).
+sso_code: hms
+
+# Id phần mềm ở SSO (adm.App) — 12 ở CSDL SSO dev. Môi trường khác có thể cấp Id khác — cấu hình thật là `Deployment__AppId`.
+sso_app_id: 12
+
+# Nơi ĐĂNG KÝ chức năng/quyền khi khung sinh mã (/gen-module · /endpoint · /method · /migrate) — local | sso.
+#   sso = phần mềm chạy LIÊN KẾT (Linked): chức năng đăng ký ở máy chủ SSO bằng script khuôn _bmad/custom/templates/sql/sso-register-functions.sql (@AppCode = sso_code ở trên).
+permission_registry: sso
+
+# Tên hiển thị nghiệp vụ — config-sync dùng làm AppName ở appsettings.Branding.json. Đổi tên sau thì sửa ở đây và ở hồ sơ BA.
+display_name: Property Management System
+
+# Tiền tố tên dự án module (App.Modules.PMS) — khung trống đã dựng ở src/Apps/PMS/BE/Modules.
+module_prefix: App.Modules.
+
+# Tên dự án (và thư mục) của host API — src/Apps/PMS/BE/App.Api.PMS/App.Api.PMS.csproj (RootNamespace = App.Api.PMS)
+host_project: App.Api.PMS
+
+# Khoá cấu hình của phần mềm — «Main» (mặc định của /arch-init `--module-name Main`; BÍ DANH tên module: scripts/lib/apps.mjs moduleProjectDirs Main → App.Modules.PMS).
+config_key: Main
+
+paths:
+  be: src/Apps/PMS/BE                                  # thư mục BE (host + module + test)
+  fe: src/Apps/PMS/FE                                  # giao diện Angular — vỏ do new-project dựng; màn nghiệp vụ do /gen-module sinh vào features/main
+  api: src/Apps/PMS/BE/App.Api.PMS                   # host API
+  modules: src/Apps/PMS/BE/Modules                     # gốc các module App.Modules.*
+  tests: src/Apps/PMS/BE/Tests/App.Tests.PMS         # dự án test của phần mềm
+  contracts: src/Apps/PMS/_contracts                   # hồ sơ hợp đồng — /arch-init dựng _architecture + _plan ở đây
+  session: null                                          # sổ phiên của ứng dụng — chưa có
+
+# Cổng dev — nguồn DUY NHẤT: docs/deploy/bang-cong-dev.md của thư mục DỰ ÁN (mục 2), đối chiếu bằng scripts/check-ports.mjs. KHỐI cổng do new-project chọn theo các dự án đang có cạnh lõi — ĐỀ XUẤT, coder duyệt.
+ports:
+  dev:                                                  # máy coder (Properties/launchSettings.json, hồ sơ "App.Api.PMS")
+    be_http: 5700
+    be_https: 5701
+    fe: 4900
+  agent:                                                # stack agent (hồ sơ "App.Api.PMS.Agent"; FE: npm run start:agent) — chưa có stack agent riêng
+    be_http: 5710
+    be_https: 5711
+    fe: 4910

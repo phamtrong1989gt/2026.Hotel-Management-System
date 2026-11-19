@@ -1,0 +1,75 @@
+// =============================================================================
+// styles.scss — Entry point CSS toàn app
+// =============================================================================
+// Cascade layer priority (thấp → cao):
+//   @layer material       — Material M3 + skin overrides       (THẤP nhất)
+//   @layer libs           — external libs (Calendar...)
+//   @layer base           — reset, utilities, layout, RTL
+// ────────────────────────────────────────────────────────────────────────────
+//   (unlayered)           — _custom.scss (.g-* design system) + _form-groups.scss (.g-fg-*)  (CAO nhất)
+//
+// Mọi class `.g-*` LUÔN thắng Material/libs/base utilities mà không cần
+// !important hay specificity hack. Component scoped styles của Angular vẫn
+// thắng được unlayered nhờ encapsulation selector riêng — đó là behavior mong muốn.
+// =============================================================================
+
+@layer material, libs, base;
+
+
+// -----------------------------------------------------------------------------
+// EXTERNAL LIBS / FONTS
+// -----------------------------------------------------------------------------
+// QUAN TRỌNG: @import (CSS native) PHẢI ở top-level, KHÔNG bỏ trong @layer block.
+// Nếu nest vào `@layer libs { @import "..."; }` thì browser sẽ silently drop
+// (CSS spec: @import chỉ hợp lệ ở root scope). Đó là lý do trước đây Roboto
+// fontface không bao giờ load → browser fallback sans-serif system font →
+// font-weight: 500 không render đúng vì system font thường không có Medium.
+// → Đặt ở root scope với `layer(libs)` để nội dung file vẫn nằm trong libs layer.
+@import "../node_modules/roboto-fontface/css/roboto/roboto-fontface.css" layer(libs);
+// Font icon TỰ CÀI (kế hoạch an ninh mạng): không nạp từ fonts.googleapis.com ở index.html — mỗi lần mở trang trình duyệt
+// gọi máy chủ Google. Nay đóng vào bản build (font-src 'self'): Material Symbols Outlined (icon chính, đủ trục wght/FILL/GRAD/opsz) +
+// Material Icons classic (dự phòng — xem khối mat-icon trong theme/styles/_custom.scss).
+@import "../node_modules/material-symbols/outlined.css" layer(libs);
+@import "../node_modules/material-icons/iconfont/material-icons.css" layer(libs);
+@import "../node_modules/angular-calendar/css/angular-calendar.css" layer(libs);
+
+
+// -----------------------------------------------------------------------------
+// MATERIAL (priority thấp nhất)
+// -----------------------------------------------------------------------------
+@layer material {
+  @import "platform/theme/styles/theme";
+  @import "platform/theme/styles/libs-override";
+}
+
+
+// -----------------------------------------------------------------------------
+// BASE / UTILITIES / LAYOUT
+// -----------------------------------------------------------------------------
+@layer base {
+  @import "platform/theme/styles/base";
+  @import "platform/theme/styles/spaces";
+  @import "platform/theme/styles/rtl";
+}
+
+
+// =============================================================================
+// DESIGN SYSTEM (_custom.scss) — UNLAYERED → ƯU TIÊN CAO NHẤT
+// Mọi class .g-* luôn override Material + libs + base utilities.
+// =============================================================================
+@import "platform/theme/styles/custom";
+// Bộ nhóm form (.g-fg-*) tách file riêng, cùng cấp ưu tiên với custom (unlayered).
+@import "platform/theme/styles/form-groups";
+
+
+// -----------------------------------------------------------------------------
+// Snackbar presets — giữ tương thích code cũ
+// -----------------------------------------------------------------------------
+.snackbar-success { background: #43a047 !important; color: #fff !important; }
+.snackbar-error   { background: #e53935 !important; color: #fff !important; }
+.snackbar-warning { background: #fbc02d !important; color: #333 !important; }
+
+// -----------------------------------------------------------------------------
+// STYLE RIÊNG của PMS: thêm ở ĐÂY (sau mọi khối của lõi). Quy tắc: màu / cỡ chữ đi qua token --g-* (check:ui-rules UI-01…04), không !important,
+// không sửa luật của lõi dùng chung — cần đổi hành vi của control lõi thì ghi vấn đề cho phiên lõi.
+// -----------------------------------------------------------------------------
